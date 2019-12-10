@@ -18,13 +18,15 @@ public class MiniCode2 {
         this.mapping = mapping;
     }
 
-    public String letterCombinations(int[] inputArr) {
+    public String letterCombinations(Integer[] inputArr) {
         if (inputArr.length == 0) {
             return "";
         }
         if (this.isIndexOutOfBounds(inputArr)) {
             throw new IndexOutOfBoundsException("inde of inputArray is out of bounds");
         }
+        inputArr = filterIsBlankInMappingArr(inputArr);
+
         LinkedList<String> res = new LinkedList();
         res.add("");
         for (int i = 0; i < inputArr.length; i++) {
@@ -39,8 +41,19 @@ public class MiniCode2 {
         return res.stream().collect(Collectors.joining(" "));
     }
 
-    private boolean isIndexOutOfBounds(int[] inputArr){
+    /**
+     * 判断是否超出界面
+     * @param inputArr
+     * @return
+     */
+    private boolean isIndexOutOfBounds(Integer[] inputArr){
         int length = this.mapping.length;
          return Arrays.stream(inputArr).anyMatch(i -> i >= length);
+    }
+
+    //过滤在映射的数组中是空字符串的下标
+    private  Integer[] filterIsBlankInMappingArr(Integer[] inputArr) {
+        return Arrays.stream(inputArr).filter(i -> !mapping[i].equals(""))
+                .toArray(Integer[]::new);
     }
 }
